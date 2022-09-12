@@ -1,0 +1,26 @@
+{
+  "name": "kis_avia",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ortamfag/KIS_Avia.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ortamfag/KIS_Avia/issues"
+  },
+  "homepage": "https://github.com/ortamfag/KIS_Avia#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "nodemon": "^2.0.19"
+  },
+  "devDependencies": {
+    "mysql": "^2.18.1"
+  }
+}
