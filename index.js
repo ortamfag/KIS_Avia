@@ -3,7 +3,8 @@ const mysql = require('mysql')
 const PORT = process.env.PORT || 5000
 
 const connection = mysql.createConnection({
-    host     : 'phpmyadmin.fit.mospolytech.ru',
+    host     : 'std-mysql.ist.mospolytech.ru',
+    port     : '3306',
     user     : 'std_1408_kis',
     password : '12345678',
     database : 'std_1408_kis'
