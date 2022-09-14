@@ -1,7 +1,10 @@
 const express = require('express')
+const exphbs = require('express-handlebars')
+const bodyParser = require('body-parser')
 const mysql = require('mysql')
-const authRouter = require('./Routes/authRouter')
 const PORT = process.env.PORT || 5000
+
+require('dotenv').config()
 
 const connection = mysql.createConnection({
     host     : 'std-mysql.ist.mospolytech.ru',
@@ -23,16 +26,31 @@ connection.connect(err => {
 
 const app = express()
 
-app.use(express.json())
-app.use("/auth", authRouter)
+// Parsing middleware
+// Parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({extended: false}))
 
-const start = async () => {
+// Parse application/json
+app.use(bodyParser.json())
+
+// Static Files
+app.use(express.static('public'));
+
+// Templating Engine
+app.engine('hbs', exphbs.engine( {extname: '.hbs'} ))
+app.set('view engine', 'hbs')
+
+// Router
+app.get('', (req, res) => {
+    res.render('home');
+})
+
+const start = () => {
     try {
         app.listen(PORT, () => console.log(`server started on port ${PORT}`))
     } catch (e) {
         console.log(e)
     }
 }
-
 start()
 
