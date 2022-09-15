@@ -6,24 +6,6 @@ const PORT = process.env.PORT || 5000
 
 require('dotenv').config()
 
-const connection = mysql.createConnection({
-    host     : 'std-mysql.ist.mospolytech.ru',
-    port     : '3306',
-    user     : 'std_1408_kis',
-    password : '12345678',
-    database : 'std_1408_kis'
-});
-
-connection.connect(err => {
-    if (err) {
-        console.log(err)
-        return err
-    }
-    else {
-        console.log('Database ------- OK')
-    }
-})
-
 const app = express()
 
 // Parsing middleware
@@ -39,6 +21,25 @@ app.use(express.static('public'));
 // Templating Engine
 app.engine('hbs', exphbs.engine( {extname: '.hbs'} ))
 app.set('view engine', 'hbs')
+
+
+
+// Connection Pool
+const pool = mysql.createPool({
+    connectionLimit : 100,
+    host            : process.env.DB_HOST,
+    port            : process.env.DB_PORT,
+    user            : process.env.DB_USER,
+    password        : process.env.DB_PASS,
+    database        : process.env.DB_NAME
+})
+
+//Connect to DB
+
+pool.getConnection((err, connection) => {
+    if(err) throw err; //not connected
+    console.log('Connected as ID' + connection.threadId)
+})
 
 // Router
 app.get('', (req, res) => {
