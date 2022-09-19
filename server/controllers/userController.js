@@ -12,13 +12,24 @@ const pool = mysql.createPool({
 
 // View Users
 exports.view = (req, res) => {
-    res.render('home')
-    //Connect to DB
     pool.getConnection((err, connection) => {
         if (err) throw err; //not connected
         console.log('Connected as ID' + connection.threadId)
 
         // User the connection
-        connection.query('')
+        connection.query('SELECT * FROM users', (err, rows) => {
+
+            //when done with connection, release it
+
+            connection.release();
+
+            if (!err) {
+                res.render('home', { rows })
+            } else {
+                console.log(err);
+            }
+
+            console.log('The data from use table: \n', rows)
+        })
     })
 }
