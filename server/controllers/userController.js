@@ -18,9 +18,32 @@ exports.view = (req, res) => {
 
         // User the connection
         connection.query('SELECT * FROM users', (err, rows) => {
-
             //when done with connection, release it
+            connection.release();
 
+            if (!err) {
+                res.render('home', { rows })
+            } else {
+                console.log(err);
+            }
+
+            console.log('The data from use table: \n', rows)
+        })
+    })
+}
+
+//Search
+exports.find = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err; //not connected
+        console.log('Connected as ID' + connection.threadId)
+
+        let searchTerm = req.body.search;
+        console.log(searchTerm)
+
+        // User the connection
+        connection.query('SELECT * FROM users WHERE FirstName LIKE ?', ['%' + searchTerm + '%'], (err, rows) => {
+            //when done with connection, release it
             connection.release();
 
             if (!err) {
