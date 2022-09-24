@@ -74,17 +74,74 @@ exports.create = (req, res) => {
         console.log(searchTerm)
 
         // User the connection
-        connection.query('INSERT INTO users SET ID = ?, RoleID = ?, FirstName = ?, LastName = ?, Email = ?, Password = ?, Active = ?', [17, 1, first_name, last_name, email, password, 1], (err, rows) => {
+        connection.query('INSERT INTO users SET ID = ?, RoleID = ?, FirstName = ?, LastName = ?, Email = ?, Password = ?, Active = ?', [18, 1, first_name, last_name, email, password, 1], (err, rows) => {
             //when done with connection, release it
             connection.release();
 
             if (!err) {
-                res.render('add-user')
+                res.render('add-user', { alert: "User added successfully" })
             } else {
                 console.log(err);
             }
 
             console.log('The data from use table: \n', rows)
+        })
+    })
+}
+
+// Edit User
+exports.edit = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err; //not connected
+        console.log('Connected as ID' + connection.threadId)
+
+        // User the connection
+        connection.query('SELECT * FROM users WHERE ID = ?', [req.params.id], (err, rows) => {
+            //when done with connection, release it
+            connection.release();
+
+            if (!err) {
+                res.render('edit-user', { rows })
+            } else {
+                console.log(err);
+            }
+        })
+    })
+}
+
+// Update User
+exports.update = (req, res) => {
+    const {first_name, last_name, email, password} = req.body
+
+    pool.getConnection((err, connection) => {
+        if (err) throw err; //not connected
+        console.log('Connected as ID' + connection.threadId)
+
+        // User the connection
+        connection.query('UPDATE users SET FirstName = ?, LastName = ?, Email = ?, Password = ? WHERE ID = ?', [first_name, last_name, email, password, req.params.id], (err, rows) => {
+            //when done with connection, release it
+            connection.release();
+
+            if (!err) {
+                pool.getConnection((err, connection) => {
+                    if (err) throw err; //not connected
+                    console.log('Connected as ID' + connection.threadId)
+            
+                    // User the connection
+                    connection.query('SELECT * FROM users WHERE ID = ?', [req.params.id], (err, rows) => {
+                        //when done with connection, release it
+                        connection.release();
+            
+                        if (!err) {
+                            res.render('edit-user', { rows, alert: `${first_name} has been updated` })
+                        } else {
+                            console.log(err);
+                        }
+                    })
+                })
+            } else {
+                console.log(err);
+            }
         })
     })
 }
