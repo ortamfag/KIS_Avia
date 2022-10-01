@@ -145,3 +145,24 @@ exports.update = (req, res) => {
         })
     })
 }
+
+//Delete User
+
+exports.delete = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err; //not connected
+        console.log('Connected as ID' + connection.threadId)
+
+        // User the connection
+        connection.query('DELETE FROM users WHERE ID = ?', [req.params.id], (err) => {
+            //when done with connection, release it
+            connection.release();
+
+            if (!err) {
+                res.redirect('/')
+            } else {
+                console.log(err);
+            }
+        })
+    })
+}
