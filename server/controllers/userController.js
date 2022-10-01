@@ -22,7 +22,8 @@ exports.view = (req, res) => {
             connection.release();
 
             if (!err) {
-                res.render('home', { rows })
+                let removedUser = req.query.removed;
+                res.render('home', { rows, removedUser })
             } else {
                 console.log(err);
             }
@@ -147,7 +148,6 @@ exports.update = (req, res) => {
 }
 
 //Delete User
-
 exports.delete = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err; //not connected
@@ -159,10 +159,33 @@ exports.delete = (req, res) => {
             connection.release();
 
             if (!err) {
-                res.redirect('/')
+                let removedUser = encodeURIComponent('User successfully removed')
+                res.redirect('/?removed=' + removedUser)
             } else {
                 console.log(err);
             }
+        })
+    })
+}
+
+// View User
+exports.viewInfo = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err; //not connected
+        console.log('Connected as ID' + connection.threadId)
+
+        // User the connection
+        connection.query('SELECT * FROM users WHERE ID = ?', [req.params.id], (err, rows) => {
+            //when done with connection, release it
+            connection.release();
+
+            if (!err) {
+                res.render('view-user', { rows })
+            } else {
+                console.log(err);
+            }
+
+            console.log('The data from use table: \n', rows)
         })
     })
 }
