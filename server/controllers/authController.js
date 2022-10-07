@@ -10,8 +10,19 @@ const pool = mysql.createPool({
     database: process.env.DB_NAME
 })
 
+//Render the login page
 exports.loginView = (req, res) => {
     res.render('login-user')
+}
+
+//Render the home page
+exports.home = (req, res) => {
+    res.render('home')
+}
+
+//Render the registration page
+exports.registrationView = (req, res) => {
+    res.render('reg-user')
 }
 
 // Login User
@@ -22,43 +33,32 @@ exports.login = (req, res) => {
         if (err) throw err; //not connected
         console.log('Connected as ID' + connection.threadId)
 
-        let searchTerm = req.body.search;
-        console.log(searchTerm)
-
-        // User the connection
-        connection.query('INSERT INTO users SET ID = ?, RoleID = ?, Email = ?, Password = ?, Active = ?', [18, 1, email, password, 1], (err, rows) => {
-            //when done with connection, release it
+        connection.query('SELECT * FROM users WHERE Email = ?', [email], (err, candidate) => {
             connection.release();
 
             if (!err) {
-                res.render('reg-user', { alert: "User added successfully" })
+                if ((candidate.length === 1) && (candidate[0].Password === password)) {
+                    res.redirect('home')
+                } else {
+                    res.render('login-user', { alert: "Логин или пароль неверны"})
+                }
             } else {
                 console.log(err);
             }
-
-            console.log('The data from use table: \n', rows)
         })
     })
 }
 
-exports.registrationView = (req, res) => {
-    res.render('reg-user')
-}
 
 // Reg User
 exports.registration = (req, res) => {
-    const {email, password} = req.body
+    const {first_name, last_name, email, password} = req.body
 
     pool.getConnection((err, connection) => {
         if (err) throw err; //not connected
         console.log('Connected as ID' + connection.threadId)
 
-        let searchTerm = req.body.search;
-        console.log(searchTerm)
-
-        // User the connection
-        connection.query('INSERT INTO users SET ID = ?, RoleID = ?, Email = ?, Password = ?, Active = ?', [18, 1, email, password, 1], (err, rows) => {
-            //when done with connection, release it
+        connection.query('INSERT INTO users SET RoleID = ?, FirstName = ?, LastName = ?, Email = ?, Password = ?, Active = ?', [2, first_name, last_name, email, password, 1], (err, rows) => {
             connection.release();
 
             if (!err) {

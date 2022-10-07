@@ -7,6 +7,12 @@
 
 <h1>Registration</h1>
 
+{{#if alert}}
+<div class="alert alert-success d-flex align-items-center" role="alert">
+    {{alert}}
+</div>
+{{/if}}
+
 <form class="row g-3 needs-validation" method="POST" action="/registration" novalidate>
     {{> user-form}}
 </form>

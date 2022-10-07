@@ -12,4 +12,6 @@ router.post('/registration', authController.registration)
 router.get('/', authController.loginView)
 router.post('/', authController.login)
 
+router.get('/home', authController.home)
+
 module.exports = router

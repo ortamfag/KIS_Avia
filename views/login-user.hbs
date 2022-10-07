@@ -1,20 +1,24 @@
-<form>
+{{#if alert}}
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    {{alert}}
+</div>
+{{/if}}
+
+<form class="row g-3 needs-validation" method="POST" action="/">
   <!-- Email input -->
   <div class="form-outline mb-4">
-    <input type="email" id="form2Example1" class="form-control" />
+    <input type="email" id="form2Example1" class="form-control" name="email" />
     <label class="form-label" for="form2Example1">Email address</label>
   </div>
 
   <!-- Password input -->
   <div class="form-outline mb-4">
-    <input type="password" id="form2Example2" class="form-control" />
+    <input type="password" id="form2Example2" class="form-control" name="password"  />
     <label class="form-label" for="form2Example2">Password</label>
   </div>
 
   <!-- Submit button -->
-    <form class="row g-3 needs-validation" method="POST" action="/login" novalidate>
-          <button type="button" class="btn btn-primary btn-block mb-4">Sign in</button>
-    </form>
+  <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
 
   <!-- Register buttons -->
   <div class="text-center">
