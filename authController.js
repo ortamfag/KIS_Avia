@@ -2,23 +2,23 @@ class authController {
     async registration(req, res) {
         try {
 
-        } catch (e) {
-            
+        } catch(e) {
+
         }
     }
 
     async login(req, res) {
         try {
 
-        } catch (e) {
+        } catch(e) {
 
         }
     }
 
     async getUsers(req, res) {
         try {
-            res.json("server work")
-        } catch (e) {
+            res.json('server work')
+        } catch(e) {
 
         }
     }
