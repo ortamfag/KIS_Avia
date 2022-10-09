@@ -13,6 +13,12 @@
 </div>
 {{/if}}
 
+{{#if alertBad}}
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    {{alertBad}}
+</div>
+{{/if}}
+
 <form class="row g-3 needs-validation" method="POST" action="/registration" novalidate>
     {{> user-form}}
 </form>

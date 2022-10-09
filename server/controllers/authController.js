@@ -1,4 +1,6 @@
 const mysql = require('mysql')
+const bcrypt = require('bcrypt');
+const saltRounds = 7;
 
 // Connection Pool
 const pool = mysql.createPool({
@@ -58,16 +60,34 @@ exports.registration = (req, res) => {
         if (err) throw err; //not connected
         console.log('Connected as ID' + connection.threadId)
 
-        connection.query('INSERT INTO users SET RoleID = ?, FirstName = ?, LastName = ?, Email = ?, Password = ?, Active = ?', [2, first_name, last_name, email, password, 1], (err, rows) => {
+        connection.query('SELECT * FROM users WHERE Email = ?', [email], (err, candidate) => {
             connection.release();
 
+            console.log(candidate.length)
             if (!err) {
-                res.render('reg-user', { alert: "User added successfully" })
+                if (candidate.length >= 1) {
+                    res.render('reg-user', { alertBad: "Пользователь с таким E-mail уже существует" })
+                    
+                } else {
+                    pool.getConnection((err, connection) => {
+                        if (err) throw err; //not connected
+                        console.log('Connected as ID' + connection.threadId)
+                
+                        connection.query('INSERT INTO users SET RoleID = ?, FirstName = ?, LastName = ?, Email = ?, Password = ?, Active = ?', [2, first_name, last_name, email, password, 1], (err, rows) => {
+                            connection.release();
+                
+                            if (!err) {
+                                res.render('reg-user', { alert: "Пользователь зарегистрирован" })
+                            } else {
+                                console.log(err);
+                            }
+                        })
+                    })
+                }
+
             } else {
                 console.log(err);
             }
-
-            console.log('The data from use table: \n', rows)
         })
     })
 }
