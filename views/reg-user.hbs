@@ -19,6 +19,30 @@
 </div>
 {{/if}}
 
+{{#if alertFirstName}}
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    {{alertFirstName}}
+</div>
+{{/if}}
+
+{{#if alertLastName}}
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    {{alertLastName}}
+</div>
+{{/if}}
+
+{{#if alertEmail}}
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    {{alertEmail}}
+</div>
+{{/if}}
+
+{{#if alertPassword}}
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    {{alertPassword}}
+</div>
+{{/if}}
+
 <form class="row g-3 needs-validation" method="POST" action="/registration" novalidate>
     {{> user-form}}
 </form>

@@ -38,11 +38,15 @@ exports.login = (req, res) => {
         connection.query('SELECT * FROM users WHERE Email = ?', [email], (err, candidate) => {
             connection.release();
 
+            const validPassword = bcrypt.compareSync(password, candidate[0].Password )
+
             if (!err) {
-                if ((candidate.length === 1) && (candidate[0].Password === password)) {
+                if ((candidate.length === 1) && (validPassword === true)) {
                     res.redirect('home')
                 } else {
-                    res.render('login-user', { alert: "Логин или пароль неверны"})
+                    res.render('login-user', { 
+                        alert: "Логин или пароль неверны"
+                    })
                 }
             } else {
                 console.log(err);
@@ -63,26 +67,57 @@ exports.registration = (req, res) => {
         connection.query('SELECT * FROM users WHERE Email = ?', [email], (err, candidate) => {
             connection.release();
 
-            console.log(candidate.length)
             if (!err) {
                 if (candidate.length >= 1) {
-                    res.render('reg-user', { alertBad: "Пользователь с таким E-mail уже существует" })
-                    
-                } else {
-                    pool.getConnection((err, connection) => {
-                        if (err) throw err; //not connected
-                        console.log('Connected as ID' + connection.threadId)
-                
-                        connection.query('INSERT INTO users SET RoleID = ?, FirstName = ?, LastName = ?, Email = ?, Password = ?, Active = ?', [2, first_name, last_name, email, password, 1], (err, rows) => {
-                            connection.release();
-                
-                            if (!err) {
-                                res.render('reg-user', { alert: "Пользователь зарегистрирован" })
-                            } else {
-                                console.log(err);
-                            }
-                        })
+                    res.render('reg-user', { 
+                        alertBad: "Пользователь с таким E-mail уже существует" 
                     })
+                } else {
+                    switch(0) {
+                        case first_name.length:
+                            res.render('reg-user', {
+                                alertFirstName: "Имя не может быть пустым"
+                            })
+                            break
+
+                        case last_name.length:
+                            res.render('reg-user', { 
+                                alertLastName: "Фамилия не может быть пустой" 
+                            })
+                            break
+
+                        case email.length:
+                            res.render('reg-user', { 
+                                alertEmail: "Электронная почта не может быть пустой" 
+                            })
+                            break
+
+                        case password.length:
+                            res.render('reg-user', { 
+                                alertPassword: "Пароль не может быть пустой" 
+                            })
+                            break
+
+                        default:
+                            pool.getConnection((err, connection) => {
+                                if (err) throw err; //not connected
+                                console.log('Connected as ID' + connection.threadId)
+        
+                                const salt = bcrypt.genSaltSync(saltRounds);
+                                const hashPassword = bcrypt.hashSync(password, salt);
+                        
+                                connection.query('INSERT INTO users SET RoleID = ?, FirstName = ?, LastName = ?, Email = ?, Password = ?, Active = ?', [2, first_name, last_name, email, hashPassword, 1], (err, rows) => {
+                                    connection.release();
+                        
+                                    if (!err) {
+                                        res.render('reg-user', { alert: "Пользователь зарегистрирован" })
+                                    } else {
+                                        console.log(err);
+                                    }
+                                })
+                            })
+                            break
+                    }
                 }
 
             } else {
