@@ -1,5 +1,7 @@
 const mysql = require('mysql')
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
+const { secret } = require("../../config")
 const saltRounds = 7;
 
 // Connection Pool
@@ -27,6 +29,15 @@ exports.registrationView = (req, res) => {
     res.render('reg-user')
 }
 
+const generateAccessToken = (ID, RoleID) => {
+    const payload = {
+        ID, 
+        RoleID
+    }
+
+    return jwt.sign(payload, secret, {expiresIn: "12h"})
+}
+
 // Login User
 exports.login = (req, res) => {
     const {email, password} = req.body
@@ -38,10 +49,12 @@ exports.login = (req, res) => {
         connection.query('SELECT * FROM users WHERE Email = ?', [email], (err, candidate) => {
             connection.release();
 
-            const validPassword = bcrypt.compareSync(password, candidate[0].Password )
+            const validPassword = bcrypt.compareSync(password, candidate[0].Password)
 
             if (!err) {
                 if ((candidate.length === 1) && (validPassword === true)) {
+                    const token = generateAccessToken(candidate[0].ID, candidate[0].RoleID)
+                    console.log(token)
                     res.redirect('home')
                 } else {
                     res.render('login-user', { 
@@ -120,6 +133,27 @@ exports.registration = (req, res) => {
                     }
                 }
 
+            } else {
+                console.log(err);
+            }
+        })
+    })
+}
+
+//getUsers
+
+// Login User
+exports.getUsers = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err; //not connected
+        console.log('Connected as ID' + connection.threadId)
+
+        connection.query('SELECT * FROM users', (err, rows) => {
+            connection.release();
+
+            if (!err) {
+                res.redirect('home')
+                console.log(rows)
             } else {
                 console.log(err);
             }
