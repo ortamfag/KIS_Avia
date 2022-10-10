@@ -19,11 +19,6 @@ exports.loginView = (req, res) => {
     res.render('login-user')
 }
 
-//Render the home page
-exports.home = (req, res) => {
-    res.render('home')
-}
-
 exports.home2 = (req, res) => {
     res.render('home2')
 }
