@@ -23,7 +23,7 @@ module.exports = function (RoleID) {
             if (RoleID.includes(userRoles)) {
                 hasRole = true
             }
-
+            
             if (!hasRole) {
                 return res.status(403).json({message: "Вы не администратор"})
             }

@@ -14,6 +14,7 @@ router.get('/', authController.loginView)
 router.post('/', authController.login)
 
 router.get('/home', authController.home)
+router.get('/home2', authController.home2)
 
 router.post('/getUsers', roleMiddleware(['1']), authController.getUsers)
 

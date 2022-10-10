@@ -24,6 +24,10 @@ exports.home = (req, res) => {
     res.render('home')
 }
 
+exports.home2 = (req, res) => {
+    res.render('home2')
+}
+
 //Render the registration page
 exports.registrationView = (req, res) => {
     res.render('reg-user')
@@ -54,8 +58,13 @@ exports.login = (req, res) => {
             if (!err) {
                 if ((candidate.length === 1) && (validPassword === true)) {
                     const token = generateAccessToken(candidate[0].ID, candidate[0].RoleID)
-                    console.log(token)
-                    res.redirect('home')
+
+                    if (candidate[0].RoleID === 1) {
+                        res.redirect('home')
+                    } else {
+                        res.redirect('home2')
+                    }
+
                 } else {
                     res.render('login-user', { 
                         alert: "Логин или пароль неверны"
@@ -119,7 +128,7 @@ exports.registration = (req, res) => {
                                 const salt = bcrypt.genSaltSync(saltRounds);
                                 const hashPassword = bcrypt.hashSync(password, salt);
                         
-                                connection.query('INSERT INTO users SET RoleID = ?, FirstName = ?, LastName = ?, Email = ?, Password = ?, Active = ?', [2, first_name, last_name, email, hashPassword, 1], (err, rows) => {
+                                connection.query('INSERT INTO users SET RoleID = ?, FirstName = ?, LastName = ?, Email = ?, Password = ?, Active = ?', [1, first_name, last_name, email, hashPassword, 1], (err, rows) => {
                                     connection.release();
                         
                                     if (!err) {
