@@ -31,6 +31,37 @@ exports.homeAdmin = (req, res) => {
                 item.Birthdate = userAge
             });
 
+            rows.forEach(item => {
+                if (item.RoleID === 1) {
+                    item.RoleID = 'administrator'
+                } else {
+                    item.RoleID = 'office user'
+                }
+            })
+
+            rows.forEach(item => {
+                switch(true) {
+                    case item.OfficeID === 1:
+                        item.OfficeID = 'Abu dhabi'
+                        break
+
+                    case item.OfficeID === 3:
+                        item.OfficeID = 'Cairo'
+                        break
+
+                    case item.OfficeID === 4:
+                        item.OfficeID = 'Bahrain'
+                        break
+
+                    case item.OfficeID === 5:
+                        item.OfficeID = 'Doha'
+                        break
+
+                    case item.OfficeID === 6:
+                        item.OfficeID = 'Riyadh'
+                        break
+                }
+            })
 
             if (!err) {
                 res.render('homeAdmin', { rows })

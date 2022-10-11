@@ -75,7 +75,7 @@ exports.login = (req, res) => {
 
 // Reg User
 exports.registration = (req, res) => {
-    const {first_name, last_name, email, password} = req.body
+    const {first_name, last_name, email, office, birthdate, password} = req.body
 
     pool.getConnection((err, connection) => {
         if (err) throw err; //not connected
@@ -123,7 +123,7 @@ exports.registration = (req, res) => {
                                 const salt = bcrypt.genSaltSync(saltRounds);
                                 const hashPassword = bcrypt.hashSync(password, salt);
                         
-                                connection.query('INSERT INTO users SET RoleID = ?, FirstName = ?, LastName = ?, Email = ?, Password = ?, Active = ?', [1, first_name, last_name, email, hashPassword, 1], (err, rows) => {
+                                connection.query('INSERT INTO users SET RoleID = ?, FirstName = ?, LastName = ?, Email = ?, Password = ?, OfficeID = ?, Birthdate = ?, Active = ?', [1, first_name, last_name, email, hashPassword, office, birthdate, 1], (err, rows) => {
                                     connection.release();
                         
                                     if (!err) {
