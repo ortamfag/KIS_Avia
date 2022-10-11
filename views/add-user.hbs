@@ -1,0 +1,48 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">New User</li>
+    </ol>
+</nav>
+
+<h1>Add user</h1>
+
+{{#if alert}}
+<div class="alert alert-success d-flex align-items-center" role="alert">
+    {{alert}}
+</div>
+{{/if}}
+
+{{#if alertBad}}
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    {{alertBad}}
+</div>
+{{/if}}
+
+{{#if alertFirstName}}
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    {{alertFirstName}}
+</div>
+{{/if}}
+
+{{#if alertLastName}}
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    {{alertLastName}}
+</div>
+{{/if}}
+
+{{#if alertEmail}}
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    {{alertEmail}}
+</div>
+{{/if}}
+
+{{#if alertPassword}}
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    {{alertPassword}}
+</div>
+{{/if}}
+
+<form class="row g-3 needs-validation" method="POST" action="/addUser" novalidate>
+    {{> user-form}}
+</form>

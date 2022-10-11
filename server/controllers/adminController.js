@@ -1,4 +1,8 @@
 const mysql = require('mysql')
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
+const { secret } = require("../../config")
+const saltRounds = 7;
 
 // Connection Pool
 const pool = mysql.createPool({
@@ -70,6 +74,82 @@ exports.homeAdmin = (req, res) => {
             }
 
             // console.log('The data from use table: \n', rows)
+        })
+    })
+}
+
+//Render the login page
+exports.addUserView = (req, res) => {
+    res.render('add-user')
+}
+
+// Reg User
+exports.addUser = (req, res) => {
+    const {first_name, last_name, email, office, birthdate, password} = req.body
+
+    pool.getConnection((err, connection) => {
+        if (err) throw err; //not connected
+        console.log('Connected as ID' + connection.threadId)
+
+        connection.query('SELECT * FROM users WHERE Email = ?', [email], (err, candidate) => {
+            connection.release();
+
+            if (!err) {
+                if (candidate.length >= 1) {
+                    res.render('add-user', { 
+                        alertBad: "Пользователь с таким E-mail уже существует" 
+                    })
+                } else {
+                    switch(0) {
+                        case first_name.length:
+                            res.render('add-user', {
+                                alertFirstName: "Имя не может быть пустым"
+                            })
+                            break
+
+                        case last_name.length:
+                            res.render('add-user', { 
+                                alertLastName: "Фамилия не может быть пустой" 
+                            })
+                            break
+
+                        case email.length:
+                            res.render('add-user', { 
+                                alertEmail: "Электронная почта не может быть пустой" 
+                            })
+                            break
+
+                        case password.length:
+                            res.render('add-user', { 
+                                alertPassword: "Пароль не может быть пустой" 
+                            })
+                            break
+
+                        default:
+                            pool.getConnection((err, connection) => {
+                                if (err) throw err; //not connected
+                                console.log('Connected as ID' + connection.threadId)
+        
+                                const salt = bcrypt.genSaltSync(saltRounds);
+                                const hashPassword = bcrypt.hashSync(password, salt);
+                        
+                                connection.query('INSERT INTO users SET RoleID = ?, FirstName = ?, LastName = ?, Email = ?, Password = ?, OfficeID = ?, Birthdate = ?, Active = ?', [1, first_name, last_name, email, hashPassword, office, birthdate, 1], (err, rows) => {
+                                    connection.release();
+                        
+                                    if (!err) {
+                                        res.render('add-user', { alert: "Пользователь зарегистрирован" })
+                                    } else {
+                                        console.log(err);
+                                    }
+                                })
+                            })
+                            break
+                    }
+                }
+
+            } else {
+                console.log(err);
+            }
         })
     })
 }

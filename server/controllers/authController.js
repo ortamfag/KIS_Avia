@@ -19,10 +19,6 @@ exports.loginView = (req, res) => {
     res.render('login-user')
 }
 
-exports.home2 = (req, res) => {
-    res.render('home2')
-}
-
 //Render the registration page
 exports.registrationView = (req, res) => {
     res.render('reg-user')
@@ -52,7 +48,8 @@ exports.login = (req, res) => {
 
             if (!err) {
                 if ((candidate.length === 1) && (validPassword === true)) {
-                    const token = generateAccessToken(candidate[0].ID, candidate[0].RoleID)
+                    const token = generateAccessToken(candidate[0].ID, candidate[0].RoleID)                    
+                    // window.localStorage.setItem('bearer', token)
 
                     if (candidate[0].RoleID === 1) {
                         res.redirect('homeAdmin')

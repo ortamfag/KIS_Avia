@@ -8,7 +8,8 @@ module.exports = function (RoleID) {
         }
 
         try {
-            const token = req.headers.authorization.split(' ')[1]
+            const storageToken = localStorage.getItem('bearer')
+            const token = storageToken.split(' ')[1]
 
             if (!token) {
                 console.log(e)

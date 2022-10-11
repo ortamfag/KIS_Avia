@@ -11,7 +11,7 @@ router.get('/registration', authController.registrationView)
 router.post('/registration', authController.registration)
 
 
-//Registration
+//Login
 router.get('/', authController.loginView)
 router.post('/', authController.login)
 
@@ -20,6 +20,17 @@ router.get('/homeAdmin', adminController.homeAdmin)
 
 //User page after login
 router.get('/homeUser', userController.homeUser)
+
+//Add user
+router.get('/addUserView', adminController.addUserView)
+router.post('/addUser', roleMiddleware(['1'], adminController.addUser))
+
+
+
+
+
+
+
 
 
 //test func
