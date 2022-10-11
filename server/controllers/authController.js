@@ -55,9 +55,9 @@ exports.login = (req, res) => {
                     const token = generateAccessToken(candidate[0].ID, candidate[0].RoleID)
 
                     if (candidate[0].RoleID === 1) {
-                        res.redirect('home')
+                        res.redirect('homeAdmin')
                     } else {
-                        res.redirect('home2')
+                        res.redirect('homeUser')
                     }
 
                 } else {
