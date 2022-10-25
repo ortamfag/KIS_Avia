@@ -8,11 +8,11 @@ module.exports = function (RoleID) {
         }
 
         try {
-            const storageToken = localStorage.getItem('bearer')
-            const token = storageToken.split(' ')[1]
+            let storageToken = req.cookies
+            const token = storageToken.token
+            console.log(token)
 
             if (!token) {
-                console.log(e)
                 return res.status(403).json({
                     message: "Пользователь не авторизован"
                 })
@@ -21,19 +21,20 @@ module.exports = function (RoleID) {
             const {RoleID: userRoles} = jwt.verify(token, secret)
             let hasRole = false
 
-            if (RoleID.includes(userRoles)) {
+            if (RoleID[0] == userRoles) {
                 hasRole = true
             }
+
+            console.log(hasRole)
             
-            if (!hasRole) {
+            if (hasRole === false) {
                 return res.status(403).json({message: "Вы не администратор"})
             }
 
             next()
 
         } catch (e) {
-            console.log(e)
-            return res.status(403)
+            return res.status(403).json({message: "Пользователь не авторизован"})
         }
     }
 }

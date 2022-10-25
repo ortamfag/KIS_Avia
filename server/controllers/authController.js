@@ -1,7 +1,7 @@
 const mysql = require('mysql')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
-const { secret } = require("../../config")
+const { secret } = require('../config/auth.config')
 const saltRounds = 7;
 
 // Connection Pool
@@ -29,6 +29,7 @@ const generateAccessToken = (ID, RoleID) => {
         ID, 
         RoleID
     }
+    console.log(payload)
 
     return jwt.sign(payload, secret, {expiresIn: "12h"})
 }
@@ -48,8 +49,8 @@ exports.login = (req, res) => {
 
             if (!err) {
                 if ((candidate.length === 1) && (validPassword === true)) {
-                    const token = generateAccessToken(candidate[0].ID, candidate[0].RoleID)                    
-                    // window.localStorage.setItem('bearer', token)
+                    const token = generateAccessToken(candidate[0].ID, candidate[0].RoleID)    
+                    res.cookie('token', token)     
 
                     if (candidate[0].RoleID === 1) {
                         res.redirect('homeAdmin')

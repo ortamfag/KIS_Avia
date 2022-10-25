@@ -1,7 +1,7 @@
 const mysql = require('mysql')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
-const { secret } = require("../../config")
+const { secret } = require('../config/auth.config')
 const saltRounds = 7;
 
 // Connection Pool
@@ -133,7 +133,7 @@ exports.addUser = (req, res) => {
                                 const salt = bcrypt.genSaltSync(saltRounds);
                                 const hashPassword = bcrypt.hashSync(password, salt);
                         
-                                connection.query('INSERT INTO users SET RoleID = ?, FirstName = ?, LastName = ?, Email = ?, Password = ?, OfficeID = ?, Birthdate = ?, Active = ?', [1, first_name, last_name, email, hashPassword, office, birthdate, 1], (err, rows) => {
+                                connection.query('INSERT INTO users SET RoleID = ?, FirstName = ?, LastName = ?, Email = ?, Password = ?, OfficeID = ?, Birthdate = ?, Active = ?', [2, first_name, last_name, email, hashPassword, office, birthdate, 1], (err, rows) => {
                                     connection.release();
                         
                                     if (!err) {
