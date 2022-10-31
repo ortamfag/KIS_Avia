@@ -1,41 +1,36 @@
 {{#if alert}}
-<div class="alert alert-danger d-flex align-items-center" role="alert">
+<div class="alert alert-danger" role="alert">
   {{alert}}
 </div>
 {{/if}}
 
 {{#if alertGood}}
-<div class="alert alert-success d-flex align-items-center" role="alert">
+<div class="alert alert-success" role="alert">
   {{alertGood}}
 </div>
 {{/if}}
 
 {{#if alertBlocked}}
-<div class="alert alert-danger d-flex align-items-center" role="alert">
+<div class="alert alert-danger" role="alert">
   {{alertBlocked}}
 </div>
 {{/if}}
 
-<form class="row g-3 needs-validation" method="POST" action="/">
+<form method="POST" action="/">
   <!-- Email input -->
-  <div class="form-outline mb-4">
+  <div class="form__input">
+    <label class="form-label" for="form2Example1">User Name</label>
     <input type="email" id="form2Example1" class="form-control" name="email" />
-    <label class="form-label" for="form2Example1">Email address</label>
   </div>
 
   <!-- Password input -->
-  <div class="form-outline mb-4">
-    <input type="password" id="form2Example2" class="form-control" name="password" />
+  <div class="form__input">
     <label class="form-label" for="form2Example2">Password</label>
+    <input type="password" id="form2Example2" class="form-control" name="password" />
   </div>
 
   <!-- Submit button -->
   <button type="submit" class="btn btn-primary btn-block mb-4">Login</button>
-
-  <!-- Register buttons -->
-  <div class="text-center">
-    <p>Not a member? <a href="/registration">Register</a></p>
-  </div>
 </form>
 
 

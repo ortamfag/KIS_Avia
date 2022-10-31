@@ -1,0 +1,9 @@
+.form__input{
+
+}
+
+.form-label{
+    display: inline-block;
+    @include fontBold;
+    min-width: 100px;
+}
