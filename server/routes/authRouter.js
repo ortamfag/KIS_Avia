@@ -25,15 +25,7 @@ router.get('/homeUser', userController.homeUser)
 router.get('/addUserView', roleMiddleware(['1']), adminController.addUserView)
 router.post('/addUser', roleMiddleware(['1']), adminController.addUser)
 
-
-
-
-
-
-
-
-
-//test func
-router.post('/getUsers', roleMiddleware(['1']), authController.getUsers)
+//Exit
+router.post('/exit', authController.exit)
 
 module.exports = router

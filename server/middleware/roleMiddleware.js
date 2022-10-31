@@ -10,7 +10,6 @@ module.exports = function (RoleID) {
         try {
             let storageToken = req.cookies
             const token = storageToken.token
-            console.log(token)
 
             if (!token) {
                 return res.status(403).json({
@@ -24,8 +23,6 @@ module.exports = function (RoleID) {
             if (RoleID[0] == userRoles) {
                 hasRole = true
             }
-
-            console.log(hasRole)
             
             if (hasRole === false) {
                 return res.status(403).json({message: "Вы не администратор"})

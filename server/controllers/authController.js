@@ -48,7 +48,11 @@ exports.login = (req, res) => {
             const validPassword = bcrypt.compareSync(password, candidate[0].Password)
 
             if (!err) {
-                if ((candidate.length === 1) && (validPassword === true)) {
+                if (candidate[0].Active === 0) {
+                    res.render('login-user', {
+                        alertBlocked: "Пользователь заблокирован"
+                    })
+                } else if ((candidate.length === 1) && (validPassword === true)) {
                     const token = generateAccessToken(candidate[0].ID, candidate[0].RoleID)    
                     res.cookie('token', token)     
 
@@ -125,7 +129,7 @@ exports.registration = (req, res) => {
                                     connection.release();
                         
                                     if (!err) {
-                                        res.render('reg-user', { alert: "Пользователь зарегистрирован" })
+                                        res.render('login-user', { alertGood: "Пользователь зарегистрирован" })
                                     } else {
                                         console.log(err);
                                     }
@@ -142,23 +146,8 @@ exports.registration = (req, res) => {
     })
 }
 
-//getUsers
-
 // Login User
-exports.getUsers = (req, res) => {
-    pool.getConnection((err, connection) => {
-        if (err) throw err; //not connected
-        console.log('Connected as ID' + connection.threadId)
-
-        connection.query('SELECT * FROM users', (err, rows) => {
-            connection.release();
-
-            if (!err) {
-                res.redirect('home')
-                console.log(rows)
-            } else {
-                console.log(err);
-            }
-        })
-    })
+exports.exit = (req, res) => {
+    res.clearCookie('token')
+    res.render('exit-page', {alert: 'Вы успешно вышли из аккаунта'})
 }
