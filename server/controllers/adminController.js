@@ -137,7 +137,7 @@ exports.addUser = (req, res) => {
                                     connection.release();
                         
                                     if (!err) {
-                                        res.render('add-user', { alert: "Пользователь зарегистрирован" })
+                                        res.render('add-user', { alertSuccess: "Пользователь зарегистрирован" })
                                     } else {
                                         console.log(err);
                                     }
