@@ -7,3 +7,16 @@
     @include fontBold;
     min-width: 100px;
 }
+
+#blockedError{
+    opacity: 0;
+}
+
+.blockedActive{
+    opacity: 1 !important;
+    transition: 0.4s !important;
+}
+
+.loginExitBlock{
+    pointer-events: none !important;
+}

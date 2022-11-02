@@ -55,6 +55,7 @@ exports.login = (req, res) => {
                 } else if ((candidate.length === 1) && (validPassword === true)) {
                     const token = generateAccessToken(candidate[0].ID, candidate[0].RoleID)    
                     res.cookie('token', token)     
+                    res.clearCookie('badLogin')
 
                     if (candidate[0].RoleID === 1) {
                         res.redirect('homeAdmin')
@@ -63,6 +64,13 @@ exports.login = (req, res) => {
                     }
 
                 } else {
+                    if (req.cookies.badLogin) {
+                        let countOfBadLogin = Number(req.cookies.badLogin)
+                        res.cookie('badLogin', countOfBadLogin + 1)
+                        
+                    } else {
+                        res.cookie('badLogin', 0)
+                    }
                     res.render('login-user', { 
                         alert: "Логин или пароль неверны"
                     })

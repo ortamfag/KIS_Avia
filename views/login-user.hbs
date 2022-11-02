@@ -16,6 +16,11 @@
 </div>
 {{/if}}
 
+<div id="blockedError">
+  <p>Вы слишком часто вводили неправильный пароль, подождите несколько секунд</p>
+  <p id="counterOfBlockedSec"></p>
+</div>
+
 <form method="POST" action="/">
   <!-- Email input -->
   <div class="form__input">
@@ -30,7 +35,7 @@
   </div>
 
   <!-- Submit button -->
-  <button type="submit" class="btn btn-primary btn-block mb-4">Login</button>
+  <button id="loginSubmit" type="submit" class="">Login</button>
 </form>
 
 
