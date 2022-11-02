@@ -1,24 +1,25 @@
-<div class="col-md-6">
+<div class="user-form">
 
-    <div class="form-floating mb-3">
+    <div class="form__input">
+        <label class="user-form-label" for="floatingInput">Email address</label>
         <input type="text" class="form-control" id="floatingInput" value="{{this.Email}}" placeholder="Email"
             name="email">
-        <label for="floatingInput">Email address</label>
     </div>
 
-    <div class="form-floating mb-3">
+    <div class="form__input">
+         <label class="user-form-label" for="floatingInput">First name</label>
         <input type="text" class="form-control" id="floatingInput" value="{{this.FirstName}}" placeholder="First Name"
             name="first_name">
-        <label for="floatingInput">First name</label>
     </div>
 
-    <div class="form-floating mb-3">
+    <div class="form__input">
+        <label class="user-form-label" for="floatingInput">Last name</label>
         <input type="text" class="form-control" id="floatingInput" value="{{this.LastName}}" placeholder="Last Name"
-            name="last_name">
-        <label for="floatingInput">Last name</label>
+            name="last_name"> 
     </div>
 
-    <div class="form-floating mb-3">
+    <div class="form__input">
+        <label class="user-form-label" for="floatingSelect">Office name</label>
         <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="office">
             <option value="1">Abu dhabi</option>
             <option value="3">Cairo</option>
@@ -26,20 +27,19 @@
             <option value="5">Doha</option>
             <option value="6">Riyadh</option>
         </select>
-        <label for="floatingSelect">Office name</label>
     </div>
 
-    <div class="form-floating mb-3">
+    <div class="form__input">
+        <label class="user-form-label" for="floatingInput">Birthdate (dd/mm/yy)</label>
         <input type="text" class="form-control" id="floatingInput" value="{{this.Birthdate}}" placeholder="Birthdate"
             name="birthdate">
-        <label for="floatingInput">Birthdate (dd/mm/yy)</label>
     </div>
 
 
-    <div class="form-floating mb-3">
+    <div class="form__input">
+        <label class="user-form-label" for="floatingInput">Password</label>
         <input type="text" class="form-control" id="floatingInput" value="{{this.Password}}" placeholder="Password"
             name="password">
-        <label for="floatingInput">Password</label>
     </div>
 
 </div>

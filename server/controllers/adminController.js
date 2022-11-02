@@ -153,3 +153,119 @@ exports.addUser = (req, res) => {
         })
     })
 }
+
+// Edit Role
+exports.changeRole = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err; //not connected
+        console.log('Connected as ID' + connection.threadId)
+
+        // User the connection
+        connection.query('SELECT * FROM users WHERE ID = ?', [req.params.id], (err, rows) => {
+            //when done with connection, release it
+            connection.release();
+
+            if (!err) {
+                res.render('changeRole', { rows })
+            } else {
+                console.log(err);
+            }
+        })
+    })
+}
+
+// Update Role
+exports.updateRole = (req, res) => {
+    const {first_name, role_ID} = req.body
+
+    pool.getConnection((err, connection) => {
+        if (err) throw err; //not connected
+        console.log('Connected as ID' + connection.threadId)
+
+        // User the connection
+        connection.query('UPDATE users SET RoleID = ? WHERE ID = ?', [role_ID, req.params.id], (err, rows) => {
+            //when done with connection, release it
+            connection.release();
+
+            if (!err) {
+                pool.getConnection((err, connection) => {
+                    if (err) throw err; //not connected
+                    console.log('Connected as ID' + connection.threadId)
+            
+                    // User the connection
+                    connection.query('SELECT * FROM users WHERE ID = ?', [req.params.id], (err, rows) => {
+                        //when done with connection, release it
+                        connection.release();
+            
+                        if (!err) {
+                            res.render('changeRole', { rows, alert: `${first_name} has been updated` })
+                        } else {
+                            console.log(err);
+                        }
+                    })
+                })
+            } else {
+                console.log(err);
+            }
+        })
+    })
+}
+
+
+//Block user
+// Edit Role
+exports.changeBlock = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err; //not connected
+        console.log('Connected as ID' + connection.threadId)
+
+        // User the connection
+        connection.query('SELECT * FROM users WHERE ID = ?', [req.params.id], (err, rows) => {
+            //when done with connection, release it
+            connection.release();
+
+            if (!err) {
+                res.render('blockUser', { rows })
+            } else {
+                console.log(err);
+            }
+        })
+    })
+}
+
+// Update Role
+exports.updateBlock = (req, res) => {
+    const {first_name, Active} = req.body
+
+    pool.getConnection((err, connection) => {
+        if (err) throw err; //not connected
+        console.log('Connected as ID' + connection.threadId)
+
+        // User the connection
+        connection.query('UPDATE users SET Active = ? WHERE ID = ?', [Active, req.params.id], (err, rows) => {
+            //when done with connection, release it
+            connection.release();
+
+            if (!err) {
+                pool.getConnection((err, connection) => {
+                    if (err) throw err; //not connected
+                    console.log('Connected as ID' + connection.threadId)
+            
+                    // User the connection
+                    connection.query('SELECT * FROM users WHERE ID = ?', [req.params.id], (err, rows) => {
+                        //when done with connection, release it
+                        connection.release();
+            
+                        if (!err) {
+                            res.render('blockUser', { rows, alert: `${first_name} has been updated` })
+                        } else {
+                            console.log(err);
+                        }
+                    })
+                })
+            } else {
+                console.log(err);
+            }
+        })
+    })
+}

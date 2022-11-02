@@ -1,15 +1,13 @@
 let cookieParse = document.cookie.split(';')
+
 let positionOfBadLogin
-
-
 for (let i = 0; i <= cookieParse.length - 1; i++) {
     if (cookieParse[i].includes('badLogin')) {
-        positionOfBadLogin = i
+        positionOfBadLogin = i //определение куки, хранящей количество неправильных входов
     }
 }
 
 let countOfBadLogin
-
 if (positionOfBadLogin != 'undefined') {
     countOfBadLogin = cookieParse[positionOfBadLogin].split('=') //количество неправильных вводов пароля
 }

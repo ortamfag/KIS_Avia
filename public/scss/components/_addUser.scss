@@ -1,0 +1,14 @@
+.user-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &-label {
+        min-width: 180px;
+        text-align: left;
+    }
+}
+
+.form-select{
+    width: 250px;
+}

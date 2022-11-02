@@ -1,3 +1,4 @@
+
 {{#if alert}}
 <div class="alert alert-danger" role="alert">
   {{alert}}
@@ -21,6 +22,8 @@
   <p id="counterOfBlockedSec"></p>
 </div>
 
+<h1 class="page-title">Login</h1>
+
 <form method="POST" action="/">
   <!-- Email input -->
   <div class="form__input">
@@ -35,12 +38,10 @@
   </div>
 
   <!-- Submit button -->
-  <button id="loginSubmit" type="submit" class="">Login</button>
+  <button id="loginSubmit" type="submit" class="btn btn-primary">Login</button>
 </form>
 
 
 <form class="row g-3" method="POST" action="/exit" novalidate>
-  <a href="https://google.com">
-    <button id="loginExit" class="btn btn-primary btn-block mb-4">Exit</button>
-  </a>
+    <button id="loginExit" type="submit" class="btn btn-exit">Exit</button>
 </form>

@@ -19,11 +19,6 @@ exports.loginView = (req, res) => {
     res.render('login-user')
 }
 
-//Render the registration page
-exports.registrationView = (req, res) => {
-    res.render('reg-user')
-}
-
 const generateAccessToken = (ID, RoleID) => {
     const payload = {
         ID, 
@@ -64,89 +59,18 @@ exports.login = (req, res) => {
                     }
 
                 } else {
-                    if (req.cookies.badLogin) {
-                        let countOfBadLogin = Number(req.cookies.badLogin)
+                    let countOfBadLogin
+                    if (req.cookies.badLogin != 'undefined') {
+                        countOfBadLogin = Number(req.cookies.badLogin) 
                         res.cookie('badLogin', countOfBadLogin + 1)
-                        
                     } else {
-                        res.cookie('badLogin', 0)
+                        res.cookie('badLogin', 1)
                     }
                     res.render('login-user', { 
                         alert: "Логин или пароль неверны"
                     })
+                    console.log(countOfBadLogin)
                 }
-            } else {
-                console.log(err);
-            }
-        })
-    })
-}
-
-
-// Reg User
-exports.registration = (req, res) => {
-    const {first_name, last_name, email, office, birthdate, password} = req.body
-
-    pool.getConnection((err, connection) => {
-        if (err) throw err; //not connected
-        console.log('Connected as ID' + connection.threadId)
-
-        connection.query('SELECT * FROM users WHERE Email = ?', [email], (err, candidate) => {
-            connection.release();
-
-            if (!err) {
-                if (candidate.length >= 1) {
-                    res.render('reg-user', { 
-                        alertBad: "Пользователь с таким E-mail уже существует" 
-                    })
-                } else {
-                    switch(0) {
-                        case first_name.length:
-                            res.render('reg-user', {
-                                alertFirstName: "Имя не может быть пустым"
-                            })
-                            break
-
-                        case last_name.length:
-                            res.render('reg-user', { 
-                                alertLastName: "Фамилия не может быть пустой" 
-                            })
-                            break
-
-                        case email.length:
-                            res.render('reg-user', { 
-                                alertEmail: "Электронная почта не может быть пустой" 
-                            })
-                            break
-
-                        case password.length:
-                            res.render('reg-user', { 
-                                alertPassword: "Пароль не может быть пустой" 
-                            })
-                            break
-
-                        default:
-                            pool.getConnection((err, connection) => {
-                                if (err) throw err; //not connected
-                                console.log('Connected as ID' + connection.threadId)
-        
-                                const salt = bcrypt.genSaltSync(saltRounds);
-                                const hashPassword = bcrypt.hashSync(password, salt);
-                        
-                                connection.query('INSERT INTO users SET RoleID = ?, FirstName = ?, LastName = ?, Email = ?, Password = ?, OfficeID = ?, Birthdate = ?, Active = ?', [1, first_name, last_name, email, hashPassword, office, birthdate, 1], (err, rows) => {
-                                    connection.release();
-                        
-                                    if (!err) {
-                                        res.render('login-user', { alertGood: "Пользователь зарегистрирован" })
-                                    } else {
-                                        console.log(err);
-                                    }
-                                })
-                            })
-                            break
-                    }
-                }
-
             } else {
                 console.log(err);
             }

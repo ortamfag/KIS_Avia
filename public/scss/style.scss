@@ -1,5 +1,7 @@
 @import 'components/_fonts';
 @import 'components/_login';
+@import 'components/_homeAdmin';
+@import 'components/_addUser';
 
 * {
     margin: 0;
@@ -7,12 +9,24 @@
     box-sizing: border-box;
 }
 
+a{
+    text-decoration: none;
+    color: #1E1E1E
+}
+
 html {
+    @include fontRegular;
+    color: #1E1E1E
+}
+
+.page-title{
+    text-align: center;
+    margin-bottom: 30px;
     @include fontRegular
 }
 
 .container {
-    max-width: 720px;
+    max-width: 1120px;
     width: 100%;
     margin: 0 auto;
     padding-top: 5rem;
@@ -27,13 +41,81 @@ html {
 
 .alert{
     padding: 20px;
-    border-radius: 20px;
+    border-radius: 5px;
+    margin-bottom: 30px;
 }
 
 .alert-success{
-    background-color: green
+    background-color: #AFCABE
 }
 
 .alert-danger{
-    background-color: red
+    background-color: #DAB6B7
+}
+
+.form__input{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    width: 100%;
+
+    & input {
+        @include fontRegular
+    }
+}
+
+.form-label{
+    display: inline-block;
+    @include fontBold;
+    min-width: 100px;
+}
+
+.form-control{
+    border: 1px solid #4B25B2;
+    border-radius: 4px;
+    box-shadow: 0px 2px 4px 0px #0000001F;
+    padding: 6px 12px;
+    width: 250px;
+}
+
+.btn{
+    @include fontBold;
+    padding: 10px 22px;
+    width: auto;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.12);
+    border-radius: 6px;
+    outline: none;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+
+.btn-primary{
+    background-color: #196AA6;
+    border: 1px solid #196AA6;
+    color: #FFFFFF;
+    margin-top: 30px;
+
+    &:hover{
+        transition: .4s;
+        background-color: #FFFFFF;
+        color: #000000
+    }
+}
+
+.btn-exit{
+    background-color: #F5F5F5;
+    border: 1px solid #F5F5F5;
+    margin-top: 15px;
+    color: #C2C2C2;
+
+    &:hover{
+        transition: .4s;
+        background-color: #FFFFFF;
+        color: #000000;
+    }
 }

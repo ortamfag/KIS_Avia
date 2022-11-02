@@ -1,0 +1,29 @@
+{{#if alert}}
+<div class="alert alert-success d-flex align-items-center" role="alert">
+    {{alert}}
+</div>
+{{/if}}
+
+{{#each rows}}
+<form method="POST" action="/blockUser/{{this.ID}}" novalidate>
+    <div class="form__input">
+        <label class="form-label" for="floatingInput">First name</label>
+        <input readonly type="text" class="form-control" id="floatingInput" value="{{this.FirstName}}"
+            placeholder="First Name" name="first_name">
+    </div>
+
+    <div class="form__input">
+        <label class="form-label" for="floatingInput">Last name</label>
+        <input readonly type="text" class="form-control" id="floatingInput" value="{{this.LastName}}"
+            placeholder="Last Name" name="last_name">
+    </div>
+
+    <div class="form__input">
+        <label class="form-label" for="floatingInput">Active</label>
+        <input type="text" class="form-control" id="floatingInput" value="{{this.Active}}" placeholder="Active"
+            name="Active">
+    </div>
+
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form>
+{{/each}}
