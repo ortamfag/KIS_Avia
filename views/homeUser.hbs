@@ -1,1 +1,21 @@
-ты не админ
+<div class="admin-nav">
+  <a href="/homeUser" style="text-decoration: underline;">Home</a>
+  <form class="row g-3" method="POST" action="/exit" novalidate>
+    <button type="submit">
+      <p>Exit</p>
+    </button>
+  </form>
+</div>
+
+
+{{#each rows}}
+
+<p>Hi {{this.FirstName}}, Welcome to AMONIC Airlines</p>
+<div class="user-stat">
+    <p><strong>Time spent on system</strong>:  </p>
+    <p>Number of crashes: </p>]
+</div>
+
+{{/each}}
+
+

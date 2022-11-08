@@ -52,11 +52,38 @@ exports.login = (req, res) => {
                     res.cookie('token', token)     
                     res.clearCookie('badLogin')
 
-                    if (candidate[0].RoleID === 1) {
-                        res.redirect('homeAdmin')
-                    } else {
-                        res.redirect('homeUser')
-                    }
+                    pool.getConnection((err, connection) => {
+                        if (err) throw err; //not connected
+                        console.log('Connected as ID' + connection.threadId)
+
+                        let nameOfNewTable = email.split('@')
+                        nameOfNewTable = nameOfNewTable[0]
+
+                        let changeWrongSymbols = nameOfNewTable.split('')      
+                        for (let i = 0; i <= changeWrongSymbols.length; i++) {
+                            if ((changeWrongSymbols[i] === '.') || (changeWrongSymbols[i] === '-')) {
+                                changeWrongSymbols[i] = '_'
+                            }
+                        }
+
+                        nameOfNewTable = changeWrongSymbols.join('')
+
+                        
+                
+                        connection.query(`INSERT INTO ${nameOfNewTable} SET Active = ?', [1]`, (err, rows) => {
+                            connection.release();
+                
+                            if (!err) {
+                                if (candidate[0].RoleID === 1) {
+                                    res.redirect('homeAdmin')
+                                } else {
+                                    res.redirect('homeUser')
+                                }
+                            } else {
+                                console.log(err);
+                            }
+                        })
+                    })
 
                 } else {
                     let countOfBadLogin

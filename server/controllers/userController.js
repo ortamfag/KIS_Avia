@@ -13,5 +13,22 @@ const pool = mysql.createPool({
 
 //Render the home page
 exports.homeUser = (req, res) => {
-    res.render('homeUser')
+    pool.getConnection((err, connection) => {
+        if (err) throw err; //not connected
+        console.log('Connected as ID' + connection.threadId)
+    
+        // User the connection
+        connection.query('SELECT * FROM users', (err, rows) => {
+            //when done with connection, release it
+            connection.release();
+    
+            if (!err) {
+                res.render('homeUser', { rows })
+            } else {
+                console.log(err);
+            }
+    
+            // console.log('The data from use table: \n', rows)
+        })
+    })
 }

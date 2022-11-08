@@ -132,12 +132,38 @@ exports.addUser = (req, res) => {
         
                                 const salt = bcrypt.genSaltSync(saltRounds);
                                 const hashPassword = bcrypt.hashSync(password, salt);
+
+                                let nameOfNewTable = email.split('@')
+                                nameOfNewTable = nameOfNewTable[0]
+
+                                let changeWrongSymbols = nameOfNewTable.split('')
+                                
+                                for (let i = 0; i <= changeWrongSymbols.length; i++) {
+                                    if ((changeWrongSymbols[i] === '.') || (changeWrongSymbols[i] === '-')) {
+                                        changeWrongSymbols[i] = '_'
+                                    }
+                                }
+
+                                nameOfNewTable = changeWrongSymbols.join('')
                         
                                 connection.query('INSERT INTO users SET RoleID = ?, FirstName = ?, LastName = ?, Email = ?, Password = ?, OfficeID = ?, Birthdate = ?, Active = ?', [2, first_name, last_name, email, hashPassword, office, birthdate, 1], (err, rows) => {
                                     connection.release();
                         
                                     if (!err) {
-                                        res.render('add-user', { alertSuccess: "Пользователь зарегистрирован" })
+                                        pool.getConnection((err, connection) => {
+                                            if (err) throw err; //not connected
+                                            console.log('Connected as ID' + connection.threadId)
+                                    
+                                            connection.query(`CREATE TABLE ${nameOfNewTable} (Name VARCHAR(150), Date DATE, LogTime DATE, LogOutTime DATE, TimeSpendOne INT(20), Reason VARCHAR(150), TimeSpend INT(20), Crashes INT(10))`, (err, rows) => {
+                                                connection.release();
+                                    
+                                                if (!err) {
+                                                    res.render('add-user', { alertSuccess: "Пользователь зарегистрирован" })
+                                                } else {
+                                                    console.log(err);
+                                                }
+                                            })
+                                        })
                                     } else {
                                         console.log(err);
                                     }
