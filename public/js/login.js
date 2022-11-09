@@ -1,5 +1,29 @@
 let cookieParse = document.cookie.split(';')
 
+let positionOfLogOff
+for (let i = 0; i <= cookieParse.length - 1; i++) {
+    if (cookieParse[i].includes('isLogOff')) {
+        positionOfLogOff = i //определение куки, хранящей информацию о краше
+    }
+}
+
+if (cookieParse[positionOfLogOff].split('=')[1] === 'no') {
+    //попап
+    const makeModal = modalSel => {
+        const modalEl = document.querySelector(modalSel + 'Popup');
+            closeEl = document.querySelector(modalSel + 'Cross')
+            closeBody = document.querySelector('.popup')
+            bg = document.querySelector(modalSel + 'Bg')
+
+        modalEl.classList.add('open');
+        closeEl.addEventListener('click', () => modalEl.classList.remove('open'));
+        bg.addEventListener('click', () => modalEl.classList.remove('open'));
+    }
+
+    makeModal('#log')
+}
+
+
 let positionOfBadLogin
 for (let i = 0; i <= cookieParse.length - 1; i++) {
     if (cookieParse[i].includes('badLogin')) {
@@ -35,7 +59,7 @@ if (countOfBadLogin[1] >= 3) {
     }
 
     blockedError.classList.add('blockedActive')
-    
+
     const countDown = setInterval(() => {
         document.cookie = `time=${counterOfSec}`
 
@@ -46,7 +70,7 @@ if (countOfBadLogin[1] >= 3) {
         }
 
         if (counterOfSec > 0) {
-            counterOfSec-- 
+            counterOfSec--
         } else if (counterOfSec === 0) {
             clearInterval(countDown)
             buttonBlock.classList.remove('loginExitBlock')
@@ -58,4 +82,3 @@ if (countOfBadLogin[1] >= 3) {
 
     }, 1000)
 }
-

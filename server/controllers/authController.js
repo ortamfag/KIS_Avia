@@ -62,6 +62,7 @@ exports.login = (req, res) => {
 
                     res.cookie('loginDate', dateOfLogin) //если это остаётся при некст логине, то вывести попап
                     res.cookie('loginTime', timeOfLogin)
+                    res.cookie('isLogOff', 'no')
 
                     res.cookie('email', email)
 
@@ -146,10 +147,10 @@ exports.exit = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err; //not connected
         console.log('Connected as ID' + connection.threadId)
-        console.log(req.cookies.email)
-        console.log(req.cookies.loginDate)
-        console.log(req.cookies.loginTime)
-        console.log(req.cookies.nameOfNewTable)
+        // console.log(req.cookies.email)
+        // console.log(req.cookies.loginDate)
+        // console.log(req.cookies.loginTime)
+        // console.log(req.cookies.nameOfNewTable)
 
         //находим дату
         let thisLogOutDate = new Date();
@@ -162,6 +163,7 @@ exports.exit = (req, res) => {
             connection.release();
 
             if (!err) {
+                res.cookie('isLogOff', 'yes')
                 res.render('exit-page', {alert: 'Вы успешно вышли из аккаунта'})
             } else {
                 console.log(err);
