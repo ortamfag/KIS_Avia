@@ -171,3 +171,28 @@ exports.exit = (req, res) => {
         })
     })
 }
+
+//Crush Reason
+exports.crushReason = (req, res) => {
+    const { crush } = req.body
+
+    pool.getConnection((err, connection) => {
+        if (err) throw err; //not connected
+
+        connection.query(`UPDATE ${req.cookies.nameOfNewTable} SET Reason = ?, Crashes = 1 WHERE LogTime = ?`, [crush, req.cookies.loginTime], (err, rows) => {
+            connection.release();
+
+            if (!err) {
+                res.clearCookie('nameOfNewTable')
+                res.clearCookie('loginTime')
+                res.clearCookie('loginDate')
+                res.clearCookie('email')
+                res.cookie('isLogOff', 'yes')
+                res.redirect('/')
+            } else {
+                console.log(err);
+            }
+        })
+    })
+
+}

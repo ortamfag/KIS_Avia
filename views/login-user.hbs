@@ -31,10 +31,17 @@
         <a id="logCross" class="popup__close"><img src="../img/close.svg" alt="закрыть"></a>
 
         <div class="popup__wrapper">
-          <p>No logout detected for your last login</p>
+          <h1>No logout detected for your last login</h1>
+          
+          <form method="POST" action="/crushReason">
+            <div class="reason__input">
+              <label class="user-form-label" for="floatingInput">Reason</label>
+              <input type="text" class="form-control" id="floatingInput" value="" placeholder="System crash or Software Crush"
+                  name="crush">
+            </div>
 
-          <p>Reason:</p>
-          <input>
+            <button class="btn btn-primary" type="submit">Submit</button>
+          </form>
         </div>
       </div>
     </div>

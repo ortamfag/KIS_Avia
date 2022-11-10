@@ -33,4 +33,7 @@ router.post('/blockUser/:id', roleMiddleware(['1']), adminController.updateBlock
 //Exit
 router.post('/exit', authController.exit)
 
+//Crush report
+router.post('/crushReason', authController.crushReason)
+
 module.exports = router
