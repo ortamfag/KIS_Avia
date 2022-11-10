@@ -18,12 +18,32 @@ exports.homeUser = (req, res) => {
         console.log('Connected as ID' + connection.threadId)
     
         // User the connection
-        connection.query('SELECT * FROM users', (err, rows) => {
+        connection.query(`SELECT * FROM ${req.cookies.nameOfNewTable} WHERE Crashes = 1`, [req.cookies.email],  (err, info) => {
             //when done with connection, release it
             connection.release();
     
             if (!err) {
-                res.render('homeUser', { rows })
+                pool.getConnection((err, connection) => {
+                    if (err) throw err; //not connected
+                    console.log('Connected as ID' + connection.threadId)
+                
+                    // User the connection
+                    connection.query('SELECT * FROM users WHERE Email = ?', [req.cookies.email],  (err, rows) => {
+                        //when done with connection, release it
+                        connection.release();
+
+                        rows[0].crushes = info.length
+                        console.log(rows)
+                
+                        if (!err) {
+                            res.render('homeUser', { rows })
+                        } else {
+                            console.log(err);
+                        }
+                
+                        // console.log('The data from use table: \n', rows)
+                    })
+                })
             } else {
                 console.log(err);
             }
