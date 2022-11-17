@@ -33,7 +33,7 @@ exports.homeUser = (req, res) => {
                         connection.release();
 
                         rows[0].crushes = info.length
-                        console.log(rows)
+                        
                         
                 
                         if (!err) {
@@ -45,31 +45,28 @@ exports.homeUser = (req, res) => {
                                 connection.query(`SELECT * FROM ${req.cookies.nameOfNewTable}`,  (err, log) => {
                                     //when done with connection, release it
                                     connection.release();
-            
                                     
-                                    
+                                    let allOfTime = 0
+                                    for (let i = 0; i < log.length; i++) {
+                                        allOfTime += log[i].TimeSpendOne
+                                    }
                             
                                     if (!err) {
+                                        res.cookie('TimeSpend', allOfTime)
                                         res.render('homeUser', { rows, log})
                                     } else {
                                         console.log(err);
                                     }
-                            
-                                    // console.log('The data from use table: \n', rows)
                                 })
                             })
                         } else {
                             console.log(err);
                         }
-                
-                        // console.log('The data from use table: \n', rows)
                     })
                 })
             } else {
                 console.log(err);
             }
-    
-            // console.log('The data from use table: \n', rows)
         })
     })
 }

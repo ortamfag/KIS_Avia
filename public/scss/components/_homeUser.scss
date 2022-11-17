@@ -1,0 +1,10 @@
+.user-stat{
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+
+    & p:nth-child(1) {
+        margin-right: 50px;
+    }
+}
