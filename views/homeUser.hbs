@@ -18,4 +18,27 @@
 
 {{/each}}
 
+<table class="table table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Login Time</th>
+      <th scope="col">Logout Time</th>
+      <th scope="col">Time spend on system</th>
+      <th scope="col">Unsuccessful logout reason</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each log}}
+    <tr>
+      <td>{{this.Date}}</td>
+      <td>{{this.LogTime}}</td>
+      <td>{{this.LogOutTime}}</td>
+      <td>{{this.TimeSpendOne}} min</td>
+      <td>{{this.Reason}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+
 

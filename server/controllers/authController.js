@@ -54,6 +54,8 @@ exports.login = (req, res) => {
 
                     //находим дату
                     let thisDate = new Date();
+                    let absoluteTimeOfLogin = thisDate.getTime()
+                    res.cookie('absoluteTimeOfLogin', absoluteTimeOfLogin)
                     thisDate = thisDate.toLocaleString()
                     thisDate = thisDate.split(',')
                     let dateOfLogin = thisDate[0]
@@ -141,7 +143,7 @@ exports.login = (req, res) => {
     })
 }
 
-// Login User
+// Exit User
 exports.exit = (req, res) => {
     res.clearCookie('token')
     pool.getConnection((err, connection) => {
@@ -154,12 +156,20 @@ exports.exit = (req, res) => {
 
         //находим дату
         let thisLogOutDate = new Date();
+        //время за одну сессию
+        let absoluteTimeOfExit = thisLogOutDate.getTime()
         thisLogOutDate = thisLogOutDate.toLocaleString()
         thisLogOutDate = thisLogOutDate.split(',')
         let dateOfLoginOut = thisLogOutDate[0]
         let timeOfLoginOut = thisLogOutDate[1].split(' ').join('')
+ 
+        console.log(absoluteTimeOfExit)
+        console.log(req.cookies.absoluteTimeOfLogin)
+        let oneSessionTime = Math.ceil(Math.abs(absoluteTimeOfExit - req.cookies.absoluteTimeOfLogin) / (1000 * 60))
+        console.log(oneSessionTime)
 
-        connection.query(`INSERT INTO ${req.cookies.nameOfNewTable} SET Name = ?, Date = ?, LogTime = ?, LogOutTime = ?, TimeSpendOne = ?, Reason = ?, TimeSpend = ?, Crashes = ?`, [req.cookies.email, req.cookies.loginDate, req.cookies.loginTime, timeOfLoginOut, 0, 'test', 0, 0], (err, rows) => {
+
+        connection.query(`INSERT INTO ${req.cookies.nameOfNewTable} SET Name = ?, Date = ?, LogTime = ?, LogOutTime = ?, TimeSpendOne = ?, Reason = ?, TimeSpend = ?, Crashes = ?`, [req.cookies.email, req.cookies.loginDate, req.cookies.loginTime, timeOfLoginOut, oneSessionTime, 'No error', 0, 0], (err, rows) => {
             connection.release();
 
             if (!err) {

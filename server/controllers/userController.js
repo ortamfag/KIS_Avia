@@ -34,9 +34,30 @@ exports.homeUser = (req, res) => {
 
                         rows[0].crushes = info.length
                         console.log(rows)
+                        
                 
                         if (!err) {
-                            res.render('homeUser', { rows })
+                            pool.getConnection((err, connection) => {
+                                if (err) throw err; //not connected
+                                console.log('Connected as ID' + connection.threadId)
+                            
+                                // User the connection
+                                connection.query(`SELECT * FROM ${req.cookies.nameOfNewTable}`,  (err, log) => {
+                                    //when done with connection, release it
+                                    connection.release();
+            
+                                    
+                                    
+                            
+                                    if (!err) {
+                                        res.render('homeUser', { rows, log})
+                                    } else {
+                                        console.log(err);
+                                    }
+                            
+                                    // console.log('The data from use table: \n', rows)
+                                })
+                            })
                         } else {
                             console.log(err);
                         }
