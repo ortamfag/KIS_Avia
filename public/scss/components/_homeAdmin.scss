@@ -64,3 +64,18 @@ td{
     justify-content: center;
     align-items:center
 }
+
+.offices_dropdown{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+    & p {
+        @include fontBold;
+        margin-right: 15px;
+    }
+
+    & select {
+        padding: 6px 12px;
+    }
+}

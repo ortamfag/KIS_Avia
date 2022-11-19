@@ -8,6 +8,19 @@
   </form>
 </div>
 
+<div class="offices_dropdown">
+  <p>Office</p>
+  
+  <select id="officesDropdown" name="offices" onchange="checkOffice()">
+    <option value="All offices">All offices</option>
+    <option value="Abu dhabi">Abu dhabi</option>
+    <option value="Cairo">Cairo</option>
+    <option value="Bahrain">Bahrain</option>
+    <option value="Doha">Doha</option>
+    <option value="Riyadh">Riyadh</option>
+  </select>
+</div>
+
 <table class="table table-bordered">
   <thead class="thead-dark">
     <tr>
@@ -29,7 +42,7 @@
       <td>{{this.Birthdate}}</td>
       <td id="RoleID">{{this.RoleID}}</td>
       <td>{{this.Email}}</td>
-      <td>{{this.OfficeID}}</td>
+      <td id="offices">{{this.OfficeID}}</td>
       <td id="activeUser">{{this.Active}}</td>
       <td>
         <a href="/changeRole/{{this.ID}}" type="button">Change Role</a>
