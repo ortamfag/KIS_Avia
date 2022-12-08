@@ -1,0 +1,47 @@
+.manageFlight {
+
+    &_filters {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 20px;
+        padding: 20px;
+        border: 2px solid rgba(25, 106, 166, 1);
+        border-radius: 10px;
+        margin-bottom: 30px;
+
+        &__item {
+            display: flex;
+
+            & p {
+                margin-right: 20px;
+                min-width: 110px;
+                text-align: right;
+            }
+
+            & select {
+                width: 100%;
+            }
+        }
+    }
+
+    &_subtitle {
+        margin-bottom: 30px;
+    }
+
+    & h1 {
+        margin-bottom: 40px;
+    }
+
+    & button {
+        width: 110px;
+        margin: 0 0 0 auto;
+        padding: 10px 22px;
+        background: #196AA6;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.12);
+        border-radius: 6px;
+        border: 0;
+        outline: none;
+        color: #FFFFFF;
+        cursor: pointer;
+    }
+}

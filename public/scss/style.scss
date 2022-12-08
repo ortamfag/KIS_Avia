@@ -3,6 +3,7 @@
 @import 'components/_homeAdmin';
 @import 'components/_addUser';
 @import 'components/homeUser';
+@import 'components/manageFlight';
 
 * {
     margin: 0;
@@ -18,6 +19,11 @@ a{
 html {
     @include fontRegular;
     color: #1E1E1E
+}
+
+body {
+    max-width: 100vw;
+    overflow-x: hidden;
 }
 
 .page-title{

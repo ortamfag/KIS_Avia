@@ -15,6 +15,9 @@ router.get('/homeAdmin', roleMiddleware(['1']), adminController.homeAdmin)
 //User page after login
 router.get('/homeUser', userController.homeUser)
 
+//Flight manager
+router.get('/manageFlight', userController.manageFlight)
+
 //ADMIN
 
 //Add user
