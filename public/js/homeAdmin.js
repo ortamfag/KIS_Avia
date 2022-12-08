@@ -69,8 +69,6 @@ function checkOffice() {
                     allOffice[i].parentNode.style.display = 'none'
                 }
             }
-            break    
-
-        
+            break
     }
 } 

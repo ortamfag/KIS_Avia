@@ -17,7 +17,7 @@
     <div class="manageFlight_filters">
         <div class="manageFlight_filters__item">
             <p>From</p>
-            <select id="AirportsFromDropdown" name="AirportsFrom" onchange="checkAirportsFrom()">
+            <select id="AirportsFromDropdown" name="AirportsFrom">
                 <option value="All">All airports</option>
                 <option value="AUH">AUH</option>
                 <option value="CAI">CAI</option>
@@ -30,7 +30,7 @@
 
         <div class="manageFlight_filters__item">
             <p>To</p>
-            <select id="AirportsToDropdown" name="AirportsTo" onchange="checkAirportsTo()">
+            <select id="AirportsToDropdown" name="AirportsTo">
                 <option value="All">All airports</option>
                 <option value="AUH">AUH</option>
                 <option value="CAI">CAI</option>
@@ -43,7 +43,7 @@
 
         <div class="manageFlight_filters__item">
             <p>Sort by</p>
-            <select id="SortDropdown" name="sort" onchange="checkSort()">
+            <select id="sortDropdown" name="sort">
                 <option value="All">Without sort</option>
                 <option value="Date">Date-Time</option>
                 <option value="Price">Price</option>
@@ -59,14 +59,11 @@
 
         <div class="manageFlight_filters__item">
             <p>Flight Number</p>
-            <select id="flightNumberDropdown" name="flightNumber" onchange="checkFlightNumber()">
-                {{!-- {{#each}}
-
-                {{/each}} --}}
-            </select>
+            <input type="text" class="form-control" id="flightNumberDropdown" value="" placeholder="01"
+                name="flightNumber">
         </div>
 
-        <button type="submit">Apply</button>
+        <button type="submit" onclick="filterFlight()">Apply</button>
     </div>
 
     <div class="manageFlight_data">
@@ -88,17 +85,17 @@
 
             <tbody>
                 {{#each data}}
-                <tr>
-                    <td>{{this.Date}}</td>
+                <tr class="flightItem">
+                    <td id="outbound">{{this.Date}}</td>
                     <td>{{this.Time}}</td>
-                    <td>{{this.From}}</td>
-                    <td>{{this.Arrival}}</td>
-                    <td>{{this.FlightNumber}}</td>
+                    <td id="airportsFrom">{{this.From}}</td>
+                    <td id="airportsTo">{{this.Arrival}}</td>
+                    <td id="flightNumbers">{{this.FlightNumber}}</td>
                     <td>{{this.AircraftID}}</td>
                     <td>${{this.EconomyPrice}}</td>
                     <td>${{this.BusinessPrice}}</td>
                     <td>${{this.FirstClassPrice}}</td>
-                    <td>{{this.Confirmed}}</td>
+                    <td id="isConfirmed">{{this.Confirmed}}</td>
                 </tr>
                 {{/each}}
             </tbody>

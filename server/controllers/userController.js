@@ -194,14 +194,14 @@ exports.manageFlight = (req, res) => {
                     case 0:
                         item.Confirmed = 'No'
                         break
-                        
+
                     case 1:
                         item.Confirmed = 'Yes'
                         break
                 }
 
                 item.BusinessPrice = Math.floor(item.EconomyPrice * 1.35)
-                item.FirstClassPrice = Math.floor(item.BusinessPrice * 1.3)  
+                item.FirstClassPrice = Math.floor(item.BusinessPrice * 1.3)
             })
     
             if (!err) {
