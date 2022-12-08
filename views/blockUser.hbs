@@ -1,3 +1,13 @@
+<div class="admin-nav">
+  <a href="/homeAdmin">Home</a>
+  <a href="/addUserView">Add user</a>
+  <form class="row g-3" method="POST" action="/exit" novalidate>
+    <button type="submit">
+      <p>Exit</p>
+    </button>
+  </form>
+</div>
+
 {{#if alert}}
 <div class="alert alert-success d-flex align-items-center" role="alert">
     {{alert}}
