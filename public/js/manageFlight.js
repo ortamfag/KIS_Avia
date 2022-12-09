@@ -27,6 +27,14 @@ function filterFlight() {
     let outboundInputValue = outboundInput.value 
     let flightNumberDropdownValue = flightNumberDropdown.value 
 
+    if (airportsFromDropdownValue == airportsToDropdownValue) {
+        alert('The departure airport and the destination airport cannot be the same')
+        airportsFromDropdownValue = 'All'
+        airportsToDropdownValue = 'All'
+
+        return false
+    }
+
     flightItem.forEach((item) => {
         if (
             (item.children[0].innerHTML == outboundInputValue || outboundInputValue == '') &&
