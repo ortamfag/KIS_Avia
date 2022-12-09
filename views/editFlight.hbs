@@ -1,0 +1,54 @@
+<div class="admin-nav">
+    <a href="/homeUser">Home</a>
+    <a href="/manageFlight">Flight Manager</a>
+    <form class="row g-3" method="POST" action="/exit" novalidate>
+        <button type="submit">
+            <p>Exit</p>
+        </button>
+    </form>
+</div>
+
+{{#if alert}}
+<div class="alert alert-success d-flex align-items-center" role="alert">
+    {{alert}}
+</div>
+{{/if}}
+
+<h1>Schedule Edit</h1>
+
+{{#each data}}
+<div class="manageFlight_filters">
+    <p>From: {{this.From}}</p>
+    <p>To: {{this.Arrival}}</p>
+    <p>Aircraft: {{this.AircraftID}}</p>
+</div>
+
+<form method="POST" action="/editFlight/{{this.ID}}" novalidate>
+    <div class="form__input">
+        <label class="form-label" for="floatingInput">Flight Number</label>
+        <input readonly type="text" class="form-control" id="floatingInput" value="{{this.FlightNumber}}"
+            placeholder="Flight Number" name="flightNumber">
+    </div>
+
+    <div class="form__input">
+        <label class="form-label" for="floatingInput">Date</label>
+        <input type="text" class="form-control" id="floatingInput" value="{{this.Date}}"
+            placeholder="Date" name="date">
+    </div>
+
+    <div class="form__input">
+        <label class="form-label" for="floatingInput">Time</label>
+        <input type="text" class="form-control" id="floatingInput" value="{{this.Time}}"
+            placeholder="Time" name="time">
+    </div>
+
+    
+    <div class="form__input">
+        <label class="form-label" for="floatingInput">Economy price $</label>
+        <input type="text" class="form-control" id="floatingInput" value="{{this.EconomyPrice}}"
+            placeholder="Economy price" name="price">
+    </div>
+
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form>
+{{/each}}

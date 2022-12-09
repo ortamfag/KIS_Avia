@@ -213,7 +213,7 @@ exports.manageFlight = (req, res) => {
     })
 }
 
-// Edit Role
+// Cancel Flight
 exports.cancelFlight = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err; //not connected
@@ -233,7 +233,7 @@ exports.cancelFlight = (req, res) => {
     })
 }
 
-// Update Role
+// Cancel flight
 exports.updateCancelFlight = (req, res) => {
     const {flightNumber, confirmed} = req.body
 
@@ -271,20 +271,129 @@ exports.updateCancelFlight = (req, res) => {
 }
 
 
-//Block user
-// Edit Role
+// Edit Flight
 exports.editFlight = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err; //not connected
         console.log('Connected as ID' + connection.threadId)
 
         // User the connection
-        connection.query('SELECT * FROM users WHERE ID = ?', [req.params.id], (err, rows) => {
+        connection.query('SELECT * FROM schedules WHERE ID = ?', [req.params.id], (err, data) => {
             //when done with connection, release it
             connection.release();
 
+            const formatDate = (date) => {
+                let day = date.getDate();
+                if (day < 10) {
+                    day = Number('0' + day);
+                }
+                let month = date.getMonth() + 1;
+                if (month < 10) {
+                    month = Number('0' + month);
+                }
+                const year = date.getFullYear();
+                return `${month} / ${day} / ${year}`;
+            };
+
+            const formatTime = (time) => {
+                let oldTime = time.split('')
+                let newTime = []
+                for (let i = 0; i < oldTime.length - 3; i++) {
+                    newTime.push(oldTime[i])
+                }
+                newTime = newTime.join('')
+                return newTime;
+            };
+
+            data.forEach((item) => {
+                item.Date = formatDate(item.Date)
+                item.Time = formatTime(item.Time)
+
+                switch(item.RouteID) {
+                    case 1:
+                        item.From = 'AUH'
+                        item.Arrival = 'BAH'
+                        break
+                    
+                    case 2:
+                        item.From = 'BAH'
+                        item.Arrival = 'AUH'
+                        break
+
+                    case 3:
+                        item.From = 'AUH'
+                        item.Arrival = 'ADE'
+                        break
+
+                    case 5:
+                        item.From = 'ADE'
+                        item.Arrival = 'AUH'
+                        break
+
+                    case 6:
+                        item.From = 'AUH'
+                        item.Arrival = 'RUH'
+                        break
+
+                    case 7:
+                        item.From = 'RUH'
+                        item.Arrival = 'AUH'
+                        break
+
+                    case 8:
+                        item.From = 'AUH'
+                        item.Arrival = 'DOH'
+                        break
+
+                    case 9:
+                        item.From = 'DOH'
+                        item.Arrival = 'AUH'
+                        break
+
+                    case 10:
+                        item.From = 'DOH'
+                        item.Arrival = 'CAI'
+                        break
+
+                    case 11:
+                        item.From = 'CAI'
+                        item.Arrival = 'DOH'
+                        break
+
+                    case 12:
+                        item.From = 'AUH'
+                        item.Arrival = 'CAI'
+                        break
+
+                    case 13:
+                        item.From = 'CAI'
+                        item.Arrival = 'AUH'
+                        break
+
+                    case 14:
+                        item.From = 'AUH'
+                        item.Arrival = 'CAI'
+                        break
+
+                    case 15:
+                        item.From = 'CAI'
+                        item.Arrival = 'AUH'
+                        break
+                }
+
+                switch(item.AircraftID) {
+                    case 1: 
+                        item.AircraftID = 'Boeing 738'
+                        break
+                    
+                    case 2:
+                        item,AircraftID = 'Boeing 739'
+                        break
+                }
+            })
+
             if (!err) {
-                res.render('blockUser', { rows })
+                res.render('editFlight', { data })
             } else {
                 console.log(err);
             }
@@ -292,16 +401,18 @@ exports.editFlight = (req, res) => {
     })
 }
 
-// Update Role
+// Edit flight
 exports.updateEditFlight = (req, res) => {
-    const {first_name, Active} = req.body
+    const {flightNumber, date, time, price} = req.body
+
+    let formatDate = new Date(date)
 
     pool.getConnection((err, connection) => {
         if (err) throw err; //not connected
         console.log('Connected as ID' + connection.threadId)
 
         // User the connection
-        connection.query('UPDATE users SET Active = ? WHERE ID = ?', [Active, req.params.id], (err, rows) => {
+        connection.query('UPDATE schedules SET Date = ?, Time = ?, EconomyPrice = ? WHERE ID = ?', [formatDate, time, price, req.params.id], (err, rows) => {
             //when done with connection, release it
             connection.release();
 
@@ -311,12 +422,122 @@ exports.updateEditFlight = (req, res) => {
                     console.log('Connected as ID' + connection.threadId)
             
                     // User the connection
-                    connection.query('SELECT * FROM users WHERE ID = ?', [req.params.id], (err, rows) => {
+                    connection.query('SELECT * FROM schedules WHERE ID = ?', [req.params.id], (err, data) => {
                         //when done with connection, release it
                         connection.release();
+
+                        const formatDate = (date) => {
+                            let day = date.getDate();
+                            if (day < 10) {
+                                day = Number('0' + day);
+                            }
+                            let month = date.getMonth() + 1;
+                            if (month < 10) {
+                                month = Number('0' + month);
+                            }
+                            const year = date.getFullYear();
+                            return `${month} / ${day} / ${year}`;
+                        };
+            
+                        const formatTime = (time) => {
+                            let oldTime = time.split('')
+                            let newTime = []
+                            for (let i = 0; i < oldTime.length - 3; i++) {
+                                newTime.push(oldTime[i])
+                            }
+                            newTime = newTime.join('')
+                            return newTime;
+                        };
+
+                        data.forEach((item) => {
+                            item.Date = formatDate(item.Date)
+                            item.Time = formatTime(item.Time)
+            
+                            switch(item.RouteID) {
+                                case 1:
+                                    item.From = 'AUH'
+                                    item.Arrival = 'BAH'
+                                    break
+                                
+                                case 2:
+                                    item.From = 'BAH'
+                                    item.Arrival = 'AUH'
+                                    break
+            
+                                case 3:
+                                    item.From = 'AUH'
+                                    item.Arrival = 'ADE'
+                                    break
+            
+                                case 5:
+                                    item.From = 'ADE'
+                                    item.Arrival = 'AUH'
+                                    break
+            
+                                case 6:
+                                    item.From = 'AUH'
+                                    item.Arrival = 'RUH'
+                                    break
+            
+                                case 7:
+                                    item.From = 'RUH'
+                                    item.Arrival = 'AUH'
+                                    break
+            
+                                case 8:
+                                    item.From = 'AUH'
+                                    item.Arrival = 'DOH'
+                                    break
+            
+                                case 9:
+                                    item.From = 'DOH'
+                                    item.Arrival = 'AUH'
+                                    break
+            
+                                case 10:
+                                    item.From = 'DOH'
+                                    item.Arrival = 'CAI'
+                                    break
+            
+                                case 11:
+                                    item.From = 'CAI'
+                                    item.Arrival = 'DOH'
+                                    break
+            
+                                case 12:
+                                    item.From = 'AUH'
+                                    item.Arrival = 'CAI'
+                                    break
+            
+                                case 13:
+                                    item.From = 'CAI'
+                                    item.Arrival = 'AUH'
+                                    break
+            
+                                case 14:
+                                    item.From = 'AUH'
+                                    item.Arrival = 'CAI'
+                                    break
+            
+                                case 15:
+                                    item.From = 'CAI'
+                                    item.Arrival = 'AUH'
+                                    break
+                            }
+            
+                            switch(item.AircraftID) {
+                                case 1: 
+                                    item.AircraftID = 'Boeing 738'
+                                    break
+                                
+                                case 2:
+                                    item,AircraftID = 'Boeing 739'
+                                    break
+                            }
+                        })
             
                         if (!err) {
-                            res.render('blockUser', { rows, alert: `${first_name} has been updated` })
+                            res.render('editFlight', { data, alert: `${flightNumber} has been updated` })
                         } else {
                             console.log(err);
                         }
