@@ -18,6 +18,15 @@ router.get('/homeUser', userController.homeUser)
 //Flight manager
 router.get('/manageFlight', userController.manageFlight)
 
+//Cancel Flight
+router.get('/cancelFlight/:id', userController.cancelFlight)
+router.post('/cancelFlight/:id', userController.updateCancelFlight)
+
+//Edit Flight
+router.get('/editFlight/:id', userController.editFlight)
+router.post('/editFlight/:id', userController.updateEditFlight)
+
+
 //ADMIN
 
 //Add user

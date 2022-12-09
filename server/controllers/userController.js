@@ -212,3 +212,119 @@ exports.manageFlight = (req, res) => {
         })
     })
 }
+
+// Edit Role
+exports.cancelFlight = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err; //not connected
+        console.log('Connected as ID' + connection.threadId)
+
+        // User the connection
+        connection.query('SELECT * FROM schedules WHERE ID = ?', [req.params.id], (err, rows) => {
+            //when done with connection, release it
+            connection.release();
+
+            if (!err) {
+                res.render('cancelFlight', { rows })
+            } else {
+                console.log(err);
+            }
+        })
+    })
+}
+
+// Update Role
+exports.updateCancelFlight = (req, res) => {
+    const {flightNumber, confirmed} = req.body
+
+    pool.getConnection((err, connection) => {
+        if (err) throw err; //not connected
+        console.log('Connected as ID' + connection.threadId)
+
+        // User the connection
+        connection.query('UPDATE schedules SET Confirmed = ? WHERE ID = ?', [confirmed, req.params.id], (err, rows) => {
+            //when done with connection, release it
+            connection.release();
+
+            if (!err) {
+                pool.getConnection((err, connection) => {
+                    if (err) throw err; //not connected
+                    console.log('Connected as ID' + connection.threadId)
+            
+                    // User the connection
+                    connection.query('SELECT * FROM schedules WHERE ID = ?', [req.params.id], (err, rows) => {
+                        //when done with connection, release it
+                        connection.release();
+            
+                        if (!err) {
+                            res.render('cancelFlight', { rows, alert: `${flightNumber} has been updated` })
+                        } else {
+                            console.log(err);
+                        }
+                    })
+                })
+            } else {
+                console.log(err);
+            }
+        })
+    })
+}
+
+
+//Block user
+// Edit Role
+exports.editFlight = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err; //not connected
+        console.log('Connected as ID' + connection.threadId)
+
+        // User the connection
+        connection.query('SELECT * FROM users WHERE ID = ?', [req.params.id], (err, rows) => {
+            //when done with connection, release it
+            connection.release();
+
+            if (!err) {
+                res.render('blockUser', { rows })
+            } else {
+                console.log(err);
+            }
+        })
+    })
+}
+
+// Update Role
+exports.updateEditFlight = (req, res) => {
+    const {first_name, Active} = req.body
+
+    pool.getConnection((err, connection) => {
+        if (err) throw err; //not connected
+        console.log('Connected as ID' + connection.threadId)
+
+        // User the connection
+        connection.query('UPDATE users SET Active = ? WHERE ID = ?', [Active, req.params.id], (err, rows) => {
+            //when done with connection, release it
+            connection.release();
+
+            if (!err) {
+                pool.getConnection((err, connection) => {
+                    if (err) throw err; //not connected
+                    console.log('Connected as ID' + connection.threadId)
+            
+                    // User the connection
+                    connection.query('SELECT * FROM users WHERE ID = ?', [req.params.id], (err, rows) => {
+                        //when done with connection, release it
+                        connection.release();
+            
+                        if (!err) {
+                            res.render('blockUser', { rows, alert: `${first_name} has been updated` })
+                        } else {
+                            console.log(err);
+                        }
+                    })
+                })
+            } else {
+                console.log(err);
+            }
+        })
+    })
+}

@@ -80,6 +80,7 @@
                     <th scope="col">Business price</th>
                     <th scope="col">First class price</th>
                     <th scope="col">is Confirmed?</th>
+                    <th scope="col" class="text-end">Actions</th>
                 </tr>
             </thead>
 
@@ -96,6 +97,10 @@
                     <td>${{this.BusinessPrice}}</td>
                     <td>${{this.FirstClassPrice}}</td>
                     <td id="isConfirmed">{{this.Confirmed}}</td>
+                    <td>
+                        <a href="/cancelFlight/{{this.ID}}" type="button">Cancel Flight</a> <br>
+                        <a href="/editFlight/{{this.ID}}" type="button">Edit Flight</a>
+                    </td>     
                 </tr>
                 {{/each}}
             </tbody>
@@ -103,18 +108,6 @@
     </div>
 
     <div class="manageFlight_actions">
-        <div class="manageFlight_actions__edit">
-            <button>
-                <p>Change Flight</p>
-                <img src="../img/changeFlight.svg">
-            </button>
-
-            <button>
-                <p>Edit Flight</p>
-                <img src="../img/editFlight.svg">
-            </button>
-        </div>
-
         <button class="manageFlight_actions__import">
             <p>Import Changes</p>
             <img src="../img/import.svg">
