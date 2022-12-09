@@ -549,3 +549,8 @@ exports.updateEditFlight = (req, res) => {
         })
     })
 }
+
+//Search for flight
+exports.searchForFlight = (req, res) => {
+    res.render('searchForFlight')
+}

@@ -26,6 +26,9 @@ router.post('/cancelFlight/:id', userController.updateCancelFlight)
 router.get('/editFlight/:id', userController.editFlight)
 router.post('/editFlight/:id', userController.updateEditFlight)
 
+//searchForFlight
+router.get('/searchForFlight', userController.searchForFlight)
+
 
 //ADMIN
 

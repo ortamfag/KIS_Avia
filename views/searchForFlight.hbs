@@ -1,7 +1,7 @@
 <div class="admin-nav">
     <a href="/homeUser">Home</a>
-    <a href="/manageFlight" style="text-decoration: underline;">Flight Manager</a>
-    <a href="/searchForFlight">Search for flight</a>
+    <a href="/manageFlight">Flight Manager</a>
+    <a href="/searchForFlight" style="text-decoration: underline;">Search for flight</a>
     <form class="row g-3" method="POST" action="/exit" novalidate>
         <button type="submit">
             <p>Exit</p>
@@ -12,7 +12,7 @@
 
 <div class="manageFlight">
 
-    <h1>Manage Flight Schedules</h1>
+    <h1>Search for flight</h1>
 
     <h2 class="manageFlight_subtitle">Filter by</h2>
     <div class="manageFlight_filters">
@@ -66,53 +66,4 @@
 
         <button type="submit" onclick="filterFlight()">Apply</button>
     </div>
-
-    <div class="manageFlight_data">
-        <table class="table table-bordered">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">From</th>
-                    <th scope="col">To</th>
-                    <th scope="col">Flight number</th>
-                    <th scope="col">Aircraft</th>
-                    <th scope="col">Economy price</th>
-                    <th scope="col">Business price</th>
-                    <th scope="col">First class price</th>
-                    <th scope="col">is Confirmed?</th>
-                    <th scope="col" class="text-end">Actions</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {{#each data}}
-                <tr class="flightItem">
-                    <td id="outbound">{{this.Date}}</td>
-                    <td>{{this.Time}}</td>
-                    <td id="airportsFrom">{{this.From}}</td>
-                    <td id="airportsTo">{{this.Arrival}}</td>
-                    <td id="flightNumbers">{{this.FlightNumber}}</td>
-                    <td>{{this.AircraftID}}</td>
-                    <td>${{this.EconomyPrice}}</td>
-                    <td>${{this.BusinessPrice}}</td>
-                    <td>${{this.FirstClassPrice}}</td>
-                    <td id="isConfirmed">{{this.Confirmed}}</td>
-                    <td>
-                        <a href="/cancelFlight/{{this.ID}}" type="button">Confirmed</a> <br>
-                        <a href="/editFlight/{{this.ID}}" type="button">Edit Flight</a>
-                    </td>     
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-    </div>
-
-    <div class="manageFlight_actions">
-        <button class="manageFlight_actions__import">
-            <p>Import Changes</p>
-            <img src="../img/import.svg">
-        </button>
-    </div>
-
 </div>
