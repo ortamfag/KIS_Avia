@@ -29,6 +29,9 @@ router.post('/editFlight/:id', userController.updateEditFlight)
 //searchForFlight
 router.get('/searchForFlight', userController.searchForFlight)
 
+//flightSatisfaction
+router.get('/flightSatisfaction', userController.flightSatisfaction)
+
 
 //ADMIN
 

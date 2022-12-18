@@ -554,3 +554,8 @@ exports.updateEditFlight = (req, res) => {
 exports.searchForFlight = (req, res) => {
     res.render('searchForFlight')
 }
+
+//Search for flight
+exports.flightSatisfaction = (req, res) => {
+    res.render('flightSatisfaction')
+}

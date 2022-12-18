@@ -42,7 +42,7 @@ td{
 
     & a{
         @include fontRegular;
-        font-size: 36px;
+        font-size: 24px;
         margin-right: 60px;
     }
 
@@ -53,7 +53,7 @@ td{
         cursor: pointer;
 
         & p {
-            font-size: 36px;
+            font-size: 24px;
             @include fontRegular
         }
     }
