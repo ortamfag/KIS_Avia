@@ -1,0 +1,64 @@
+.satisfaction_active {
+    text-decoration: underline;
+}
+
+#satisfactionDate {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.flightSatisfaction{
+
+    & button {
+        width: 110px;
+        margin: 10px auto;
+        padding: 10px 22px;
+        background: #196AA6;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.12);
+        border-radius: 6px;
+        border: 0;
+        outline: none;
+        color: #FFFFFF;
+        cursor: pointer;
+    }
+
+    & form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        & select {
+            display: inline-flex;
+        }
+    }
+
+    & a {
+        cursor: pointer;
+        display: block;
+    }
+
+    &_table {
+        margin-top: 40px;
+
+        &__filter {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        &__head {
+
+            & th {
+                text-align: center;
+                border-right: 1px solid #000000;
+
+                    &:last-child {
+                        border-right: 0px;
+                    }
+            }
+
+            & td {
+                text-align: center;
+            }
+        }
+    }
+}

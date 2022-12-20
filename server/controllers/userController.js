@@ -557,5 +557,23 @@ exports.searchForFlight = (req, res) => {
 
 //Search for flight
 exports.flightSatisfaction = (req, res) => {
-    res.render('flightSatisfaction')
+    pool.getConnection((err, connection) => {
+        if (err) throw err; //not connected
+        console.log('Connected as ID' + connection.threadId)
+
+        const monthArr = [01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12]
+
+        // User the connection
+        connection.query(`SELECT * FROM survey_05`, (err, rows) => {
+            //when done with connection, release it
+            connection.release();
+
+            if (!err) {
+                res.render('flightSatisfaction', { rows })
+            } else {
+                console.log(err);
+            }
+        })
+    })
+
 }
